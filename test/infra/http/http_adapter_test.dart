@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart';
@@ -11,20 +13,40 @@ class HttpAdapter {
   HttpAdapter(this.client);
 
   Future<void> request({@required url, @required method, Map body}) async {
-    await client.post(url);
+    final headers = {
+      'content-type': 'application/json',
+      'accept': 'application/json',
+    };
+
+    await client.post(url, headers: headers, body: jsonEncode(body));
   }
 }
 
 void main() {
+  HttpAdapter sut;
+  ClientSpy client;
+  String url;
+
+  setUp(() {
+    client = ClientSpy();
+    sut = HttpAdapter(client);
+    url = faker.internet.httpUrl();
+  });
   group('post', () {
     test('Should call post with correct values', () async {
       final client = ClientSpy();
       final sut = HttpAdapter(client);
       final url = faker.internet.httpUrl();
 
-      await sut.request(url: url, method: 'post');
+      await sut
+          .request(url: url, method: 'post', body: {'any_key': 'any_value'});
 
-      verify(client.post(url));
+      verify(client.post(url,
+          headers: {
+            'content-type': 'application/json',
+            'accept': 'application/json',
+          },
+          body: '{"any_key":"any_value"}'));
     });
   });
 }
