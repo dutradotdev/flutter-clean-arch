@@ -1,7 +1,11 @@
 import 'package:enquete_dev/ui/component/component.dart';
+import 'package:enquete_dev/ui/pages/pages.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
+  final LoginPresenter presenter;
+  LoginPage(this.presenter);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +28,7 @@ class LoginPage extends StatelessWidget {
                             color: Theme.of(context).primaryColorLight,
                           )),
                       keyboardType: TextInputType.emailAddress,
+                      onChanged: presenter.validateEmail,
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 8.0, bottom: 32),
@@ -31,6 +36,7 @@ class LoginPage extends StatelessWidget {
                         decoration: InputDecoration(
                             labelText: 'Senha', icon: Icon(Icons.lock)),
                         obscureText: true,
+                        onChanged: presenter.validatePassword,
                       ),
                     ),
                     RaisedButton(

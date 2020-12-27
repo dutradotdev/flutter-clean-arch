@@ -1,4 +1,4 @@
-import 'package:enquete_dev/ui/pages/login_page.dart';
+import 'package:enquete_dev/ui/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,7 +14,7 @@ class App extends StatelessWidget {
     return MaterialApp(
         title: '4dev',
         debugShowCheckedModeBanner: false,
-        home: LoginPage(),
+        home: LoginPage(null),
         theme: ThemeData(
             primaryColor: primaryColor,
             primaryColorDark: primaryColorDark,
