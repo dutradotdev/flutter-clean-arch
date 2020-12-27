@@ -6,8 +6,9 @@
         "request": "launch",
         "program": "./test/"
     }, {
-        "name": "Flutter",
+        "name": "Flutter: Run App",
         "request": "launch",
-        "type": "dart"
+        "type": "dart",
+        "program": "lib/main/main.dart"
     }]
 }
