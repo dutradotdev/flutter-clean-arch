@@ -1,4 +1,5 @@
-import 'package:enquete_dev/ui/component/component.dart';
+import 'package:enquete_dev/ui/components/components.dart';
+import 'package:enquete_dev/ui/components/error_message.dart';
 import 'package:enquete_dev/ui/pages/pages.dart';
 import 'package:flutter/material.dart';
 
@@ -32,13 +33,7 @@ class _LoginPageState extends State<LoginPage> {
 
           widget.presenter.mainErrorStream.listen((error) {
             if (error != null) {
-              Scaffold.of(context).showSnackBar(SnackBar(
-                backgroundColor: Colors.red[900],
-                content: Text(
-                  error,
-                  textAlign: TextAlign.center,
-                ),
-              ));
+              showErrorMessage(context, error);
             } else {
               if (Navigator.canPop(context)) {
                 Navigator.of(context).pop();
