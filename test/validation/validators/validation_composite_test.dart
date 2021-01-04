@@ -1,27 +1,7 @@
-import 'dart:math';
-
-import 'package:enquete_dev/presentation/protocols/validation.dart';
 import 'package:enquete_dev/validation/protocols/field_validation.dart';
+import 'package:enquete_dev/validation/validators/validation_composite.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-
-class ValidationComposite implements Validation {
-  final List<FieldValidation> validations;
-
-  ValidationComposite(this.validations);
-
-  @override
-  String validate({String field, String value}) {
-    String error;
-    for (final validation in validations.where((v) => v.field == field)) {
-      error = validation.validate(value);
-      if (error?.isNotEmpty == true) {
-        return error;
-      }
-    }
-    return error;
-  }
-}
 
 class FieldValidationSpy extends Mock implements FieldValidation {}
 
