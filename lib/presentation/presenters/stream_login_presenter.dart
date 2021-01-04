@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:enquete_dev/domain/helpers/domain_error.dart';
 import 'package:enquete_dev/domain/usecases/usecases.dart';
+import 'package:enquete_dev/ui/pages/pages.dart';
 import 'package:meta/meta.dart';
 import 'package:enquete_dev/presentation/protocols/validation.dart';
 
@@ -18,7 +19,7 @@ class LoginState {
       password != null;
 }
 
-class StreamLoginPresenter {
+class StreamLoginPresenter extends LoginPresenter {
   final Validation validation;
   final Authentication authentication;
   // com o broadcast vc tem mais de um listener ouvindo nesse controller. É pra emitir mais de uma stream
