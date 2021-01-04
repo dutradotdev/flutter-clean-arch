@@ -1,29 +1,26 @@
-import 'package:enquete_dev/validation/protocols/field_validation.dart';
+import 'package:enquete_dev/validation/validators/email_validator.dart';
+import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class EmailValidation implements FieldValidation {
-  final String field;
-
-  EmailValidation(this.field);
-
-  @override
-  String validate(String value) {
-    return null;
-  }
-}
-
 void main() {
-  test('Should return null if e-mail is empty', () {
-    final sut = EmailValidation('any_field');
-    final error = sut.validate('');
+  EmailValidation sut;
 
-    expect(error, null);
+  setUp(() {
+    sut = EmailValidation('any_field');
+  });
+  test('Should return null if e-mail is empty', () {
+    expect(sut.validate(''), null);
   });
 
   test('Should return null if e-mail is null', () {
-    final sut = EmailValidation('any_field');
-    final error = sut.validate(null);
+    expect(sut.validate(null), null);
+  });
 
-    expect(error, null);
+  test('Should return null if e-mail is valid', () {
+    expect(sut.validate(faker.internet.email()), null);
+  });
+
+  test('Should return error if e-mail is valid', () {
+    expect(sut.validate('teste.errado'), 'Campo inválido');
   });
 }
