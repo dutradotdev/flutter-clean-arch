@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:enquete_dev/domain/helpers/domain_error.dart';
+import 'package:enquete_dev/domain/usecases/usecases.dart';
 import 'package:meta/meta.dart';
 import 'package:enquete_dev/presentation/protocols/validation.dart';
 
@@ -7,6 +9,8 @@ class LoginState {
   String password;
   String emailError;
   String passwordError;
+  String mainError;
+  bool isLoading = false;
   bool get isFormValid =>
       emailError == null &&
       passwordError == null &&
@@ -16,6 +20,7 @@ class LoginState {
 
 class StreamLoginPresenter {
   final Validation validation;
+  final Authentication authentication;
   // com o broadcast vc tem mais de um listener ouvindo nesse controller. É pra emitir mais de uma stream
   final _controller = StreamController<LoginState>.broadcast();
   var _state = LoginState();
@@ -29,7 +34,16 @@ class StreamLoginPresenter {
   Stream<bool> get isFormValidStream =>
       _controller.stream.map((state) => state.isFormValid).distinct();
 
-  StreamLoginPresenter({@required this.validation});
+  Stream<bool> get isLoadingStream =>
+      _controller.stream.map((state) => state.isLoading).distinct();
+
+  Stream<String> get mainErrorStream =>
+      _controller.stream.map((state) => state.mainError).distinct();
+
+  StreamLoginPresenter(
+      {@required this.validation, @required this.authentication});
+
+  void _update() => _controller.add(_state);
 
   void validateEmail(String email) {
     _state.email = email;
@@ -44,5 +58,18 @@ class StreamLoginPresenter {
     _update();
   }
 
-  void _update() => _controller.add(_state);
+  Future<void> auth() async {
+    _state.isLoading = true;
+    _update();
+
+    try {
+      await authentication.auth(
+          AuthenticationParams(email: _state.email, secret: _state.password));
+    } on DomainError catch (error) {
+      _state.mainError = error.description;
+    }
+
+    _state.isLoading = false;
+    _update();
+  }
 }
