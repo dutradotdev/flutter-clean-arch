@@ -1,7 +1,10 @@
 import 'package:enquete_dev/validation/protocols/field_validation.dart';
+import 'package:equatable/equatable.dart';
 
-class EmailValidation implements FieldValidation {
+class EmailValidation extends Equatable implements FieldValidation {
   final String field;
+
+  List get props => [field];
 
   EmailValidation(this.field);
 
