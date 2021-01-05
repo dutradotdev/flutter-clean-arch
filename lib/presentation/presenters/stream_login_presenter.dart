@@ -47,12 +47,14 @@ class StreamLoginPresenter extends LoginPresenter {
   void _update() => _controller?.add(_state);
 
   void validateEmail(String email) {
+    print(email);
     _state.email = email;
     _state.emailError = validation.validate(field: 'email', value: email);
     _update();
   }
 
   void validatePassword(String password) {
+    print(password);
     _state.password = password;
     _state.passwordError =
         validation.validate(field: 'password', value: password);
